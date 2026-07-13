@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>คมมีด BladeMaster | มีดคม ใช้งานได้จริง ราคาเอื้อมถึง</title>
+<meta name="description" content="ร้านขายมีดคุณภาพสูง มีดครัวญี่ปุ่น มีดพก มีดล่าสัตว์ และอุปกรณ์เสริม วัสดุสแตนเลสและเหล็กคาร์บอนคุณภาพดี">
+
+<!-- Google Fonts: Kanit สำหรับหัวข้อ (รองรับไทย+อังกฤษ, น้ำหนักหนักดูแข็งแรงแบบมีด) / IBM Plex Sans Thai สำหรับเนื้อหา -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700;800&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ===========================================================
+     0) DESIGN TOKENS — โทนสีและตัวแปรหลักของธีม
+     สีหลัก: ดำเข้ม (เหมือนเหล็กชุบแข็ง) / สีรอง: แดงเลือดหมู (สนิม-เลือด)
+     =========================================================== */
+  :root{
+    --bg-black:      #0b0b0c;   /* ดำเข้มเกือบมิดไนท์ */
+    --bg-panel:      #151517;   /* ดำรองสำหรับการ์ด/พาเนล */
+    --bg-panel-2:    #1c1c1f;
+    --steel:         #c7ccd1;   /* สีเงินสแตนเลส ใช้เป็นเส้นขอบ/ไอคอน */
+    --steel-dim:     #7d838a;
+    --blood:         #7a0f14;   /* แดงเลือดหมู เข้ม */
+    --blood-bright:  #c8232b;   /* แดงสว่างขึ้น สำหรับ hover/CTA */
+    --text-hi:       #f3f1ec;
+    --text-lo:       #a9a9ad;
+    --radius-lg:     22px;
+    --radius-md:     14px;
+    --radius-sm:     8px;
+    --shadow-soft:   0 20px 45px rgba(0,0,0,.45);
+    --ease:          cubic-bezier(.22,.61,.36,1);
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration: .001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+  }
+
+  body{
+    background: var(--bg-black);
+    color: var(--text-hi);
+    font-family:'IBM Plex Sans Thai', 'Kanit', sans-serif;
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,h4,.display{
+    font-family:'Kanit', 'IBM Plex Sans Thai', sans-serif;
+    font-weight:700;
+    letter-spacing:.01em;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+  img{ max-width:100%; display:block; }
+  button{ font-family:inherit; cursor:pointer; border:none; }
+
+  .container{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-size:.8rem;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color: var(--blood-bright);
+    font-weight:600;
+    margin-bottom:14px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:26px; height:2px;
+    background: var(--blood-bright);
+    display:inline-block;
+  }
+
+  /* focus visibility for keyboard nav */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--blood-bright);
+    outline-offset:3px;
+  }
+
+  /* ===========================================================
+     1) NAVBAR — แบบ Glass Effect ลอยด้านบน เปลี่ยนทึบเมื่อ Scroll
+     =========================================================== */
+  .navbar{
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    padding:18px 0;
+    transition: background .35s var(--ease), padding .35s var(--ease), box-shadow .35s var(--ease);
+  }
+  .navbar.scrolled{
+    padding:10px 0;
+    background: rgba(11,11,12,.72);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    box-shadow: 0 8px 30px rgba(0,0,0,.35);
+    border-bottom:1px solid rgba(199,204,209,.08);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand img{
+    width:42px; height:42px; object-fit:cover; border-radius:50%;
+    border:2px solid var(--blood-bright);
+  }
+  .brand-name{ font-size:1.05rem; font-weight:700; }
+  .brand-name small{ display:block; font-size:.62rem; letter-spacing:.15em; color:var(--steel-dim); font-weight:400; }
+
+  .nav-links{ display:flex; gap:36px; }
+  .nav-links a{
+    font-size:.92rem; font-weight:500; color:var(--text-lo);
+    position:relative; padding:6px 0;
+    transition:color .25s var(--ease);
+  }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:0; height:2px; width:0;
+    background: var(--blood-bright); transition:width .3s var(--ease);
+  }
+  .nav-links a:hover, .nav-links a:focus-visible{ color:var(--text-hi); }
+  .nav-links a:hover::after{ width:100%; }
+
+  .nav-toggle{
+    display:none; background:none; width:34px; height:26px; position:relative;
+  }
+  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
+    content:""; position:absolute; left:0; width:100%; height:2px; background:var(--steel);
+    transition:.3s var(--ease);
+  }
+  .nav-toggle span{ top:12px; }
+  .nav-toggle span::before{ top:-9px; }
+  .nav-toggle span::after{ top:9px; }
+  .nav-toggle.open span{ background:transparent; }
+  .nav-toggle.open span::before{ transform:rotate(45deg) translate(6px,7px); }
+  .nav-toggle.open span::after{ transform:rotate(-45deg) translate(6px,-7px); }
+
+  /* ===========================================================
+     2) HERO — จุดโฟกัสแรกของหน้า
+     =========================================================== */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex; align-items:center;
+    padding-top:90px;
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(180deg, rgba(11,11,12,.55) 0%, rgba(11,11,12,.86) 62%, var(--bg-black) 100%),
+      linear-gradient(100deg, rgba(122,15,20,.35), rgba(11,11,12,.15) 55%),
+      url('https://picsum.photos/seed/blademaster-hero/1800/1200');
+    background-size:cover; background-position:center;
+    filter:saturate(60%) contrast(105%);
+    transform:scale(1.06);
+  }
+  .hero .container{ position:relative; z-index:2; }
+
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap:40px;
+    align-items:center;
+  }
+
+  .hero-copy .display{
+    font-size:clamp(2.4rem, 5.2vw, 4.4rem);
+    line-height:1.05;
+    margin-bottom:18px;
+  }
+  .hero-copy .display .accent{ color: var(--blood-bright); }
+
+  .hero-slogan{
+    font-size:clamp(1rem, 1.6vw, 1.25rem);
+    color: var(--steel);
+    font-weight:300;
+    margin-bottom:34px;
+    max-width:46ch;
+  }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:16px 34px;
+    border-radius:999px;
+    font-weight:600; font-size:.98rem;
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);
+  }
+  .btn-primary{
+    background: linear-gradient(135deg, var(--blood-bright), var(--blood));
+    color:#fff;
+    box-shadow:0 14px 34px rgba(200,35,43,.35);
+  }
+  .btn-primary:hover{ transform:translateY(-3px); box-shadow:0 20px 40px rgba(200,35,43,.5); }
+  .btn-ghost{
+    border:1px solid rgba(199,204,209,.35); color:var(--steel);
+  }
+  .btn-ghost:hover{ background:rgba(199,204,209,.08); border-color:var(--steel); }
+
+  .hero-ctas{ display:flex; gap:16px; flex-wrap:wrap; }
+
+  /* Signature graphic: เส้นคมมีดวาดด้วย SVG หมุนเบา ๆ ลอยอยู่ */
+  .hero-blade{
+    position:relative; display:flex; justify-content:center; align-items:center;
+  }
+  .hero-blade svg{
+    width:100%; max-width:380px;
+    filter: drop-shadow(0 30px 60px rgba(0,0,0,.6));
+    animation: floatBlade 6s ease-in-out infinite;
+  }
+  @keyframes floatBlade{
+    0%,100%{ transform: translateY(0) rotate(-6deg); }
+    50%{ transform: translateY(-16px) rotate(-3deg); }
+  }
+
+  .scroll-cue{
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    color:var(--steel-dim); font-size:.72rem; letter-spacing:.2em; text-transform:uppercase;
+    z-index:2;
+  }
+  .scroll-cue span{
+    width:1px; height:34px; background:linear-gradient(var(--blood-bright), transparent);
+    animation: scrollLine 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollLine{ 0%{opacity:.2} 50%{opacity:1} 100%{opacity:.2} }
+
+  /* ===========================================================
+     3) BLADE DIVIDER — เส้นแบ่ง Section รูปทรงคมมีดหยัก (Signature)
+     =========================================================== */
+  .blade-divider{ display:block; width:100%; height:34px; }
+  .blade-divider path{ fill: var(--bg-panel); }
+  .blade-divider.flip path{ fill: var(--bg-black); }
+
+  /* ===========================================================
+     4) SECTION GENERIC
+     =========================================================== */
+  section{ position:relative; }
+  .section-pad{ padding:110px 0 120px; }
+  .section-head{ max-width:640px; margin-bottom:56px; }
+  .section-head h2{ font-size:clamp(1.8rem,3.4vw,2.6rem); margin-bottom:14px; }
+  .section-head p{ color:var(--text-lo); font-weight:300; }
+
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s var(--ease), transform .8s var(--ease); }
+  .reveal.is-visible{ opacity:1; transform:translateY(0); }
+
+  /* ===========================================================
+     5) ABOUT — พื้นหลังพาเนลเข้ม + การ์ดคุณสมบัติวัสดุ
+     =========================================================== */
+  .about{ background:var(--bg-panel); }
+  .about-grid{
+    display:grid; grid-template-columns: .95fr 1.05fr; gap:56px; align-items:center;
+  }
+  .about-text p{ color:var(--text-lo); margin-bottom:16px; font-weight:300; }
+
+  .feature-grid{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:18px;
+  }
+  .feature-card{
+    background: var(--bg-panel-2);
+    border:1px solid rgba(199,204,209,.08);
+    border-radius: var(--radius-md);
+    padding:26px 22px;
+    transition: transform .3s var(--ease), border-color .3s var(--ease);
+  }
+  .feature-card:hover{ transform:translateY(-6px); border-color:rgba(200,35,43,.5); }
+  .feature-icon{
+    width:44px; height:44px; border-radius:50%;
+    background:rgba(200,35,43,.12);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:14px;
+  }
+  .feature-icon svg{ width:22px; height:22px; stroke:var(--blood-bright); }
+  .feature-card h4{ font-size:1rem; margin-bottom:6px; }
+  .feature-card p{ font-size:.86rem; color:var(--text-lo); font-weight:300; }
+
+  /* ===========================================================
+     6) PRODUCTS — Filter + Card Grid
+     =========================================================== */
+  .products{ background:var(--bg-black); }
+
+  .filter-bar{
+    display:flex; flex-wrap:wrap; gap:12px; margin-bottom:44px;
+  }
+  .filter-btn{
+    padding:10px 22px;
+    border-radius:999px;
+    background:var(--bg-panel);
+    border:1px solid rgba(199,204,209,.14);
+    color:var(--text-lo);
+    font-size:.86rem; font-weight:500;
+    transition: all .3s var(--ease);
+  }
+  .filter-btn:hover{ color:var(--text-hi); border-color:var(--steel-dim); }
+  .filter-btn.active{
+    background: linear-gradient(135deg, var(--blood-bright), var(--blood));
+    color:#fff; border-color:transparent;
+    box-shadow:0 10px 24px rgba(200,35,43,.3);
+  }
+
+  .product-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:26px;
+  }
+
+  .product-card{
+    background: var(--bg-panel);
+    border-radius: var(--radius-lg);
+    overflow:hidden;
+    border:1px solid rgba(199,204,209,.08);
+    box-shadow: var(--shadow-soft);
+    transition: transform .45s var(--ease), box-shadow .45s var(--ease), opacity .35s var(--ease);
+    display:flex; flex-direction:column;
+  }
+  .product-card.hide{ display:none; }
+  .product-card:hover{ transform:translateY(-10px); box-shadow:0 30px 60px rgba(0,0,0,.55); }
+
+  .product-media{
+    position:relative; aspect-ratio:4/3; overflow:hidden;
+    background:#0f0f10;
+  }
+  .product-media img{
+    width:100%; height:100%; object-fit:cover;
+    transition: transform .6s var(--ease);
+  }
+  .product-card:hover .product-media img{ transform:scale(1.08); }
+
+  /* steel shine sweep — จำลองแสงสะท้อนบนใบมีดตอน hover */
+  .product-media::after{
+    content:"";
+    position:absolute; top:0; left:-160%; width:60%; height:100%;
+    background:linear-gradient(75deg, transparent, rgba(255,255,255,.22), transparent);
+    transform:skewX(-18deg);
+    transition:left .75s ease;
+  }
+  .product-card:hover .product-media::after{ left:160%; }
+
+  .category-tag{
+    position:absolute; top:12px; left:12px;
+    background:rgba(11,11,12,.72);
+    backdrop-filter:blur(6px);
+    color:var(--steel);
+    font-size:.68rem; letter-spacing:.05em;
+    padding:6px 12px; border-radius:999px;
+    border:1px solid rgba(199,204,209,.18);
+  }
+
+  .product-body{ padding:20px 20px 22px; display:flex; flex-direction:column; gap:10px; flex:1; }
+  .product-body h3{ font-size:1.02rem; font-weight:600; line-height:1.35; }
+  .product-price{ color:var(--blood-bright); font-weight:700; font-size:1.1rem; }
+
+  .btn-order{
+    margin-top:auto;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    padding:12px 18px;
+    border-radius: var(--radius-sm);
+    background:rgba(199,204,209,.06);
+    border:1px solid rgba(199,204,209,.16);
+    color:var(--text-hi);
+    font-weight:600; font-size:.88rem;
+    transition: all .3s var(--ease);
+  }
+  .btn-order:hover{
+    background: linear-gradient(135deg, var(--blood-bright), var(--blood));
+    border-color:transparent;
+    box-shadow:0 12px 26px rgba(200,35,43,.35);
+  }
+
+  /* ===========================================================
+     7) CONTACT
+     =========================================================== */
+  .contact{ background:var(--bg-panel); }
+  .contact-grid{
+    display:grid; grid-template-columns:.9fr 1.1fr; gap:44px;
+  }
+  .contact-cards{ display:flex; flex-direction:column; gap:16px; }
+  .contact-card{
+    display:flex; align-items:center; gap:16px;
+    background:var(--bg-panel-2);
+    border:1px solid rgba(199,204,209,.08);
+    border-radius: var(--radius-md);
+    padding:18px 20px;
+    transition: transform .3s var(--ease), border-color .3s var(--ease);
+  }
+  .contact-card:hover{ transform:translateX(6px); border-color:rgba(200,35,43,.45); }
+  .contact-icon{
+    width:46px; height:46px; border-radius:50%; flex:none;
+    background:rgba(200,35,43,.14);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .contact-icon svg{ width:22px; height:22px; stroke:var(--blood-bright); }
+  .contact-card h4{ font-size:.92rem; margin-bottom:2px; }
+  .contact-card p{ font-size:.82rem; color:var(--text-lo); }
+
+  .map-wrap{
+    border-radius: var(--radius-lg);
+    overflow:hidden; border:1px solid rgba(199,204,209,.1);
+    min-height:320px; box-shadow:var(--shadow-soft);
+  }
+  .map-wrap iframe{ width:100%; height:100%; min-height:320px; border:0; filter:grayscale(.3) invert(.92) contrast(.9); }
+
+  /* ===========================================================
+     8) FOOTER
+     =========================================================== */
+  footer{
+    background: var(--bg-black);
+    border-top:1px solid rgba(199,204,209,.08);
+    padding:44px 0 30px;
+  }
+  .footer-inner{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;
+  }
+  .footer-brand{ display:flex; align-items:center; gap:10px; color:var(--steel-dim); font-size:.85rem; }
+  .footer-social{ display:flex; gap:14px; }
+  .footer-social a{
+    width:38px; height:38px; border-radius:50%;
+    border:1px solid rgba(199,204,209,.18);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--steel); transition: all .3s var(--ease);
+  }
+  .footer-social a:hover{ background:var(--blood-bright); border-color:transparent; color:#fff; transform:translateY(-4px); }
+  .footer-social svg{ width:17px; height:17px; }
+
+  /* ===========================================================
+     9) RESPONSIVE
+     =========================================================== */
+  @media (max-width:980px){
+    .hero-grid{ grid-template-columns:1fr; text-align:center; }
+    .hero-blade{ order:-1; }
+    .hero-ctas{ justify-content:center; }
+    .about-grid{ grid-template-columns:1fr; }
+    .contact-grid{ grid-template-columns:1fr; }
+    .product-grid{ grid-template-columns:repeat(2,1fr); }
+  }
+
+  @media (max-width:760px){
+    .nav-links{
+      position:fixed; top:0; right:0; height:100vh; width:min(78vw,320px);
+      background:rgba(11,11,12,.97); backdrop-filter:blur(10px);
+      flex-direction:column; justify-content:center; align-items:flex-start;
+      padding:40px; gap:26px;
+      transform:translateX(100%); transition:transform .4s var(--ease);
+      border-left:1px solid rgba(199,204,209,.1);
+    }
+    .nav-links.open{ transform:translateX(0); }
+    .nav-toggle{ display:block; z-index:1001; }
+    .feature-grid{ grid-template-columns:1fr; }
+  }
+
+  @media (max-width:520px){
+    .product-grid{ grid-template-columns:1fr; }
+    .section-pad{ padding:80px 0 90px; }
+    .hero-ctas{ flex-direction:column; width:100%; }
+    .btn{ justify-content:center; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============ NAVBAR ============ -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="brand">
+        <img src="https://img.magnific.com/premium-vector/knife-vector-logo-design_410429-4267.jpg?semt=ais_hybrid&w=740&q=80" alt="โลโก้ คมมีด BladeMaster">
+        <span class="brand-name">คมมีด BladeMaster<small>PREMIUM KNIFE HOUSE</small></span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#home" class="nav-link">หน้าแรก</a>
+        <a href="#products" class="nav-link">สินค้า</a>
+        <a href="#about" class="nav-link">เกี่ยวกับเรา</a>
+        <a href="#contact" class="nav-link">ติดต่อ</a>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="เปิดเมนู"><span></span></button>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-copy reveal is-visible">
+          <span class="eyebrow">มีดคุณภาพสูง เหล็กแท้ทุกเล่ม</span>
+          <h1 class="display">คมมีด <span class="accent">BladeMaster</span></h1>
+          <p class="hero-slogan">มีดคม ใช้งานได้จริง ราคาเอื้อมถึง — มีดครัวญี่ปุ่น มีดพก มีดล่าสัตว์ และมีดพิเศษหลากหลายรุ่น ผ่านการชุบแข็งอย่างดี ปลอดภัยและทนทาน</p>
+          <div class="hero-ctas">
+            <a href="#products" class="btn btn-primary">ดูสินค้า →</a>
+            <a href="#about" class="btn btn-ghost">เกี่ยวกับเรา</a>
+          </div>
+        </div>
+        <div class="hero-blade">
+          <!-- SVG มีดวาดเอง เป็น Signature graphic ของหน้านี้ -->
+          <svg viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="bladeGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#e7ebef"/>
+                <stop offset="45%" stop-color="#9aa2a9"/>
+                <stop offset="100%" stop-color="#4a4f54"/>
+              </linearGradient>
+              <linearGradient id="handleGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#2a2a2c"/>
+                <stop offset="100%" stop-color="#0b0b0c"/>
+              </linearGradient>
+            </defs>
+            <!-- ใบมีด -->
+            <path d="M150 10 L205 40 L188 235 L150 265 L112 235 L95 40 Z" fill="url(#bladeGrad)" stroke="#6b0f13" stroke-width="2"/>
+            <!-- สันมีด -->
+            <line x1="150" y1="24" x2="150" y2="250" stroke="#7d838a" stroke-width="1.5" stroke-dasharray="3 5" opacity=".6"/>
+            <!-- การ์ดมีด -->
+            <rect x="118" y="258" width="64" height="16" rx="6" fill="#7a0f14"/>
+            <!-- ด้ามจับ -->
+            <rect x="128" y="272" width="44" height="120" rx="18" fill="url(#handleGrad)" stroke="#c7ccd1" stroke-opacity=".15"/>
+            <rect x="138" y="290" width="24" height="6" rx="3" fill="#7a0f14" opacity=".8"/>
+            <rect x="138" y="308" width="24" height="6" rx="3" fill="#7a0f14" opacity=".5"/>
+            <rect x="138" y="326" width="24" height="6" rx="3" fill="#7a0f14" opacity=".3"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-cue"><span></span>เลื่อนลง</div>
+  </section>
+
+  <svg class="blade-divider" viewBox="0 0 1200 40" preserveAspectRatio="none">
+    <path d="M0,40 L0,18 L40,30 L80,10 L120,28 L160,6 L200,26 L240,12 L280,30 L320,8 L360,24 L400,14 L440,30 L480,10 L520,26 L560,16 L600,30 L640,8 L680,24 L720,14 L760,28 L800,10 L840,26 L880,16 L920,30 L960,8 L1000,24 L1040,14 L1080,28 L1120,10 L1160,26 L1200,18 L1200,40 Z"/>
+  </svg>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="about section-pad" id="about">
+    <div class="container about-grid">
+      <div class="about-text reveal">
+        <span class="eyebrow">เกี่ยวกับเรา</span>
+        <h2>งานฝีมือระดับช่างตีเหล็ก<br>ในทุกเล่มที่คุณถือ</h2>
+        <p>คมมีด BladeMaster คือร้านมีดคุณภาพสูง จำหน่ายมีดครัวญี่ปุ่น มีดพก มีดล่าสัตว์ และมีดพิเศษหลากหลายรุ่น</p>
+        <p>เราคัดสรรเฉพาะวัสดุสแตนเลสและเหล็กคาร์บอนที่ดีที่สุด ผ่านกระบวนการชุบแข็งอย่างพิถีพิถัน เพื่อความคมทนทานและปลอดภัยในการใช้งานจริง เหมาะสำหรับเชฟมืออาชีพ มือใหม่หัดครัว ไปจนถึงนักล่าและนักผจญภัยกลางแจ้ง</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2 L20 6 V12 C20 17 16.5 20.5 12 22 C7.5 20.5 4 17 4 12 V6 Z"/></svg></div>
+          <h4>สแตนเลสคุณภาพสูง</h4>
+          <p>ทนสนิม ไม่กัดกร่อน ใช้งานได้ยาวนาน</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 12 L10 4 L20 6 L20 14 L10 20 Z"/></svg></div>
+          <h4>เหล็กคาร์บอนแท้</h4>
+          <p>คมกริบ คงความคมได้นานกว่าเหล็กทั่วไป</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 3 L4 7 V12 C4 17 7.5 21 12 22 C16.5 21 20 17 20 12 V7 Z"/><path d="M9 12 L11 14 L15 9"/></svg></div>
+          <h4>ชุบแข็งอย่างพิถีพิถัน</h4>
+          <p>ผ่านมาตรฐานการชุบแข็งเพื่อความทนทานสูงสุด</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8 12h8M12 8v8"/></svg></div>
+          <h4>ปลอดภัย ใช้งานจริง</h4>
+          <p>ออกแบบสมดุลมือ เหมาะทุกระดับการใช้งาน</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <svg class="blade-divider flip" viewBox="0 0 1200 40" preserveAspectRatio="none">
+    <path d="M0,0 L0,22 L40,10 L80,30 L120,12 L160,34 L200,14 L240,28 L280,10 L320,32 L360,16 L400,26 L440,10 L480,30 L520,14 L560,24 L600,10 L640,32 L680,16 L720,26 L760,12 L800,30 L840,14 L880,24 L920,10 L960,32 L1000,16 L1040,26 L1080,12 L1120,30 L1160,14 L1200,22 L1200,0 Z"/>
+  </svg>
+
+  <!-- ============ PRODUCTS ============ -->
+  <section class="products section-pad" id="products">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">คลังมีด</span>
+        <h2>สินค้าของเรา</h2>
+        <p>เลือกชมมีดคุณภาพสูงตามหมวดหมู่ที่คุณต้องการ</p>
+      </div>
+
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-filter="all">ทั้งหมด</button>
+        <button class="filter-btn" data-filter="kitchen">มีดครัว</button>
+        <button class="filter-btn" data-filter="pocket">มีดพก / มีดพับ</button>
+        <button class="filter-btn" data-filter="hunting">มีดล่าสัตว์ / มีดเอาชีวิตรอด</button>
+        <button class="filter-btn" data-filter="accessory">อุปกรณ์เสริมและที่ลับมีด</button>
+      </div>
+
+      <div class="product-grid" id="productGrid"><!-- การ์ดสินค้าจะถูกสร้างด้วย JavaScript ด้านล่าง --></div>
+    </div>
+  </section>
+
+  <svg class="blade-divider" viewBox="0 0 1200 40" preserveAspectRatio="none">
+    <path d="M0,40 L0,18 L40,30 L80,10 L120,28 L160,6 L200,26 L240,12 L280,30 L320,8 L360,24 L400,14 L440,30 L480,10 L520,26 L560,16 L600,30 L640,8 L680,24 L720,14 L760,28 L800,10 L840,26 L880,16 L920,30 L960,8 L1000,24 L1040,14 L1080,28 L1120,10 L1160,26 L1200,18 L1200,40 Z"/>
+  </svg>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="contact section-pad" id="contact">
+    <div class="container contact-grid">
+      <div class="reveal">
+        <span class="eyebrow">ติดต่อเรา</span>
+        <h2 style="margin-bottom:34px;">พร้อมให้คำปรึกษาเรื่องมีดทุกเล่ม</h2>
+        <div class="contact-cards">
+          <a href="#" class="contact-card">
+            <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M13 22 V13 H16 L17 9 H13 V6.5 C13 5 13.5 4 15.5 4 H17 V0.5 C16.5 0.4 15.3 0 13.8 0 C10.6 0 8.5 2 8.5 5.6 V9 H5 V13 H8.5 V22 Z"/></svg></div>
+            <div><h4>Facebook</h4><p>BladeMaster Thailand</p></div>
+          </a>
+          <a href="#" class="contact-card">
+            <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="8"/><path d="M8 11 v2 M12 9 v4 M16 11 v2"/></svg></div>
+            <div><h4>LINE Official</h4><p>@blademaster</p></div>
+          </a>
+          <a href="tel:0812345678" class="contact-card">
+            <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c1 .4 2 .6 3 .7a2 2 0 0 1 1.7 2Z"/></svg></div>
+            <div><h4>โทรศัพท์</h4><p>081-234-5678</p></div>
+          </a>
+        </div>
+      </div>
+      <div class="reveal map-wrap">
+        <iframe title="แผนที่ร้านคมมีด BladeMaster" loading="lazy" src="https://www.google.com/maps?q=Bangkok+Thailand&output=embed"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand">© <span id="year"></span> คมมีด BladeMaster — สงวนลิขสิทธิ์ทุกประการ</div>
+      <div class="footer-social">
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 22 V13 H16 L17 9 H13 V6.5 C13 5 13.5 4 15.5 4 H17 V0.5 C16.5 0.4 15.3 0 13.8 0 C10.6 0 8.5 2 8.5 5.6 V9 H5 V13 H8.5 V22 Z"/></svg></a>
+        <a href="#" aria-label="LINE"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="8"/></svg></a>
+        <a href="tel:0812345678" aria-label="โทรศัพท์"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c1 .4 2 .6 3 .7a2 2 0 0 1 1.7 2Z"/></svg></a>
+      </div>
+    </div>
+  </footer>
+
+<script>
+/* =============================================================
+   JAVASCRIPT — เฉพาะ Animation และ Interactive เล็กน้อยตามโจทย์
+   ============================================================= */
+
+// ---------- 1) ข้อมูลสินค้า (แปลงจากบรีฟ) ----------
+// หมายเหตุ: สินค้าที่บรีฟไม่ได้แนบ URL รูปมา ใช้รูปตัวอย่างฟรีจาก Picsum แทน (placeholder ภาพจริง ไม่ใช่กล่องเทา)
+const PRODUCTS = [
+  { name:"มีดเชฟญี่ปุ่น Damascus 8 นิ้ว", price:1890, cat:"kitchen", catLabel:"มีดครัว",
+    img:"https://image.made-in-china.com/202f0j00jSiWfPHCLsoM/Damascus-Chef-Knife-8-Inch-Professional-High-Carbon-Vg10-Stainless-Steel-Kitchen-Knife-Ultra-Sharp-Blade-Kitchen-Knives-with-Full-Tang-Ergonomic-Resin-Handle.webp" },
+  { name:"มีดผัก Santoku 7 นิ้ว", price:890, cat:"kitchen", catLabel:"มีดครัว",
+    img:"https://picsum.photos/seed/blade-santoku/600/450" },
+  { name:"มีดพับ EDC Tactical สีดำ", price:1290, cat:"pocket", catLabel:"มีดพก / มีดพับ",
+    img:"https://s.alicdn.com/@sc04/kf/H39d70303a7494a978ccdae7c2e6bd58ef/Wholesale-Launch-Iridium-7038-G10-Handle-Folding-Pocket-Knife-8Cr13Mov-Steel-Blade-Camping-EDC-Hunting-Tactical-Knives.jpeg_300x300.jpg" },
+  { name:"มีดพก Victorinox รุ่น Classic", price:650, cat:"pocket", catLabel:"มีดพก / มีดพับ",
+    img:"https://picsum.photos/seed/blade-victorinox/600/450" },
+  { name:"มีดล่าสัตว์ Bowie 10 นิ้ว", price:2490, cat:"hunting", catLabel:"มีดล่าสัตว์ / มีดเอาชีวิตรอด",
+    img:"https://picsum.photos/seed/blade-bowie/600/450" },
+  { name:"มีดเอาชีวิตรอด Full Tang", price:1790, cat:"hunting", catLabel:"มีดล่าสัตว์ / มีดเอาชีวิตรอด",
+    img:"https://picsum.photos/seed/blade-fulltang/600/450" },
+  { name:"ชุดมีดครัว 3 ชิ้น (เชฟ+ผัก+หั่น)", price:2690, cat:"kitchen", catLabel:"มีดครัว",
+    img:"https://picsum.photos/seed/blade-kitchenset/600/450" },
+  { name:"ที่ลับมีดแบบมือหมุน Professional", price:790, cat:"accessory", catLabel:"อุปกรณ์เสริมและที่ลับมีด",
+    img:"https://picsum.photos/seed/blade-sharpener/600/450" },
+  { name:"ปลอกมีดหนังแท้ Tactical", price:450, cat:"accessory", catLabel:"อุปกรณ์เสริมและที่ลับมีด",
+    img:"https://picsum.photos/seed/blade-sheath/600/450" },
+  { name:"มีดพับ Karambit แบบพับได้", price:1450, cat:"pocket", catLabel:"มีดพก / มีดพับ",
+    img:"https://picsum.photos/seed/blade-karambit/600/450" },
+];
+
+// ---------- 2) เรนเดอร์การ์ดสินค้า ----------
+const grid = document.getElementById('productGrid');
+grid.innerHTML = PRODUCTS.map((p, i) => `
+  <article class="product-card reveal" data-cat="${p.cat}" style="transition-delay:${(i % 4) * 60}ms">
+    <div class="product-media">
+      <img src="${p.img}" alt="${p.name}" loading="lazy"
+           onerror="this.onerror=null;this.src='https://picsum.photos/seed/blade-fallback-${i}/600/450';">
+      <span class="category-tag">${p.catLabel}</span>
+    </div>
+    <div class="product-body">
+      <h3>${p.name}</h3>
+      <div class="product-price">${p.price.toLocaleString('th-TH')} บาท</div>
+      <button class="btn-order" type="button" onclick="alert('ขอบคุณที่สนใจ \\n${p.name}\\nกรุณาติดต่อผ่าน Facebook หรือ LINE เพื่อสั่งซื้อ')">
+        สั่งซื้อ
+      </button>
+    </div>
+  </article>
+`).join('');
+
+// ---------- 3) ระบบ Filter ตามหมวดหมู่ ----------
+const filterBtns = document.querySelectorAll('.filter-btn');
+const cards = document.querySelectorAll('.product-card');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const target = btn.dataset.filter;
+
+    cards.forEach(card => {
+      const match = target === 'all' || card.dataset.cat === target;
+      card.classList.toggle('hide', !match);
+    });
+  });
+});
+
+// ---------- 4) Navbar: เปลี่ยนสไตล์เมื่อ Scroll + เมนูมือถือ ----------
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive:true });
+
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => {
+  navToggle.classList.toggle('open');
+  navLinks.classList.toggle('open');
+});
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    navToggle.classList.remove('open');
+    navLinks.classList.remove('open');
+  });
+});
+
+// ---------- 5) Reveal on scroll (IntersectionObserver) ----------
+const revealEls = document.querySelectorAll('.reveal:not(.is-visible)');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+revealEls.forEach(el => io.observe(el));
+
+// ---------- 6) ปีลิขสิทธิ์อัตโนมัติ ----------
+document.getElementById('year').textContent = new Date().getFullYear() + 543; // ปี พ.ศ.
+</script>
+</body>
+</html>
